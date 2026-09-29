@@ -1,0 +1,150 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TL200 — Guild Hub</title>
+<style>
+:root{--bg:#070a0f;--p:#10151d;--p2:#151b25;--line:#252e3a;--txt:#edf2f8;--mut:#8995a7;--vio:#8b5cf6;--cyan:#22d3ee;--green:#37d486;--red:#ff6074}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 78% 0,#21183b 0,#080b10 38%);color:var(--txt);font:14px Inter,Segoe UI,Arial,sans-serif}button,input{font:inherit;color:inherit}.app{min-height:100vh;display:flex}.side{position:fixed;inset:0 auto 0 0;width:240px;background:#090d13;border-right:1px solid var(--line);padding:23px 14px}.logo{font-size:25px;font-weight:900;padding:5px 12px 28px}.logo i{color:var(--vio);font-style:normal}.nt{font-size:10px;color:#586477;text-transform:uppercase;letter-spacing:1.5px;padding:12px}.nav button{width:100%;border:0;background:none;text-align:left;padding:12px;border-radius:9px;cursor:pointer;margin:2px 0}.nav button:hover,.nav button.active{background:#171e29}.nav button.active{box-shadow:inset 3px 0 var(--vio)}.main{margin-left:240px;width:calc(100% - 240px);padding:28px 34px 55px}.top{display:flex;justify-content:space-between;color:var(--mut);margin-bottom:27px}.top b{color:#fff}.section{display:none}.section.active{display:block}h1{font-size:31px;margin:0 0 8px}.sub{color:var(--mut);margin-bottom:22px}.hero{border:1px solid #30264d;background:linear-gradient(115deg,#18132d,#10161e 65%);padding:27px;border-radius:18px;margin-bottom:17px}.hero h1{font-size:40px}.accent{color:#b497ff}.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:linear-gradient(145deg,#121820,#0e131b);border:1px solid var(--line);border-radius:14px;padding:18px}.metric{font-size:28px;font-weight:850}.label,.small{color:var(--mut);font-size:12px}.tabs{display:flex;gap:8px;margin:17px 0}.tab,.filter,.statfilter{border:1px solid var(--line);background:#0f141c;padding:10px 16px;border-radius:9px;cursor:pointer}.tab.active,.filter.active,.statfilter.active{background:#211941;border-color:#7653ca}.table{width:100%;border-collapse:collapse}.table th{color:#6f7a8b;font-size:10px;text-transform:uppercase;text-align:left;padding:11px 9px;border-bottom:1px solid var(--line)}.table td{padding:12px 9px;border-bottom:1px solid #202833}.row{cursor:pointer}.row:hover{background:#171e28}.ava{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#7347d8,#159cb4);font-weight:800;vertical-align:middle;margin-right:9px}.weapons{display:flex;gap:5px}.weapon{width:31px;height:31px;border:1px solid #35404e;background:#19202a;border-radius:6px;display:grid;place-items:center}.cp{font-size:11px;padding:4px 8px;border-radius:99px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.search{background:#0d1219;border:1px solid var(--line);border-radius:8px;padding:10px;width:220px}.match{cursor:pointer;margin-bottom:12px}.match:hover{border-color:#7050c2;transform:translateY(-1px)}.matchhead{display:flex;justify-content:space-between}.versus{font-size:19px;font-weight:850;margin-top:5px}.win{color:var(--green)}.loss{color:var(--red)}.back{color:#9ba7b8;cursor:pointer;margin-bottom:16px}.statgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.stat{background:#0c1118;border:1px solid var(--line);padding:14px;border-radius:10px}.stat b{font-size:21px}.stat span{display:block;color:var(--mut);font-size:10px;margin-top:4px}.roster{padding:0;margin:0;list-style:none}.roster li{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #202833;cursor:pointer}.roster li:hover{background:#151b23}.enemy{color:#c88f9a}.cpbox{border-top:3px solid var(--vio);padding-top:15px}.cp-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.cp-members{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.member{background:#0d1219;border:1px solid #202936;border-radius:8px;padding:9px;cursor:pointer}.member:hover{border-color:#69758a}.missing{border:1px dashed #4c5666;color:#7d899a;background:#0b1016}.info{padding:12px;border:1px solid #283444;border-radius:9px;background:#101821;color:#9db0c2}.cover{height:190px;border-radius:18px 18px 0 0;background:linear-gradient(115deg,#291754,#123044 55%,#10151c);position:relative;overflow:hidden}.profilehead{background:#111720;border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;padding:20px}.bigava{width:88px;height:88px;border-radius:15px;background:linear-gradient(135deg,#743ee3,#08a9c4);display:grid;place-items:center;font-size:30px;font-weight:900;margin-top:-62px;border:5px solid #111720}.matchtabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.statfilter{font-size:12px;padding:8px 12px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:13px;background:#0b1016}.fullstats{min-width:1250px}.fullstats th{position:sticky;top:0;background:#0d131b;z-index:1;white-space:nowrap;cursor:pointer}.fullstats td{white-space:nowrap}.teamrow td{background:#121927;border-top:1px solid #344052;border-bottom:1px solid #344052;color:#c8d1dd;font-weight:800;padding:10px}.teamrow.enemyteam td{background:#171217}.rank{color:#7e8a9c;width:35px}.num{text-align:right}.damage{color:#c9b7ff}.healing{color:#80e5ed}.kill{color:#ffb1ba}.detailbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.detailbar h2{margin:0}.note{font-size:12px;color:#7f8b9c}.mini-tabs{display:flex;gap:6px}.mini-tabs button{background:#0d131b;border:1px solid var(--line);border-radius:7px;padding:8px 12px;cursor:pointer}.mini-tabs button.active{border-color:#7653ca;background:#211941}.statdesc{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}.statdesc .stat{padding:12px}.sorthint{font-size:11px;color:#667286;margin-top:8px}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.statgrid{grid-template-columns:repeat(3,1fr)}.statdesc{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.side{width:190px}.main{margin-left:190px;width:calc(100% - 190px);padding:20px}.g4,.g3,.g2{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="logo">TL<i>200</i></div>
+<div class="nt">Guild Hub</div>
+<div class="nav">
+<button class="active" onclick="show('home',this)">⌂ &nbsp; Главная</button>
+<button onclick="show('roster',this)">♟ &nbsp; Состав</button>
+<button onclick="show('battles',this)">⚔ &nbsp; Сражения</button>
+<button onclick="show('cp',this)">◆ &nbsp; КП</button>
+<button onclick="show('guild',this)">▣ &nbsp; О гильдии</button>
+</div>
+<div class="nt" style="margin-top:25px">Последнее</div>
+<div class="nav"><button onclick="openBattle('wg1')">⚔ &nbsp; WG · VANGUARD</button><button onclick="openBattle('wg2')">⚔ &nbsp; WG · NOMADS</button><button onclick="openBattle('siege1')">◈ &nbsp; Осада</button></div>
+</aside>
+
+<main class="main">
+<div class="top"><div>Guild Hub / <b>TL200</b></div><div>● RU · 42 игрока</div></div>
+
+<section id="home" class="section active">
+<div class="hero"><div class="small">GUILD COMMAND CENTER</div><h1>TL<span class="accent">200</span></h1><div class="sub">Состав · КП · Варгеймы · Осады · полная статистика матчей</div></div>
+<div class="grid g4"><div class="card"><div class="metric">42</div><div class="label">Игроков</div></div><div class="card"><div class="metric">7</div><div class="label">КП</div></div><div class="card"><div class="metric">18</div><div class="label">Варгеймов</div></div><div class="card"><div class="metric">72%</div><div class="label">Winrate WG</div></div></div>
+<div class="grid g2" style="margin-top:16px">
+<div class="card"><h3>Последние сражения</h3><div class="match" onclick="openBattle('wg1')"><b>TL200 × VANGUARD</b><div class="small">War Game · 28.09.2026</div><b class="win">WIN · 2 : 0</b></div><hr style="border-color:#222b36"><div class="match" onclick="openBattle('wg2')"><b>TL200 × NOMADS</b><div class="small">War Game · 26.09.2026</div><b class="loss">ПОРАЖЕНИЕ · 1 : 2</b></div></div>
+<div class="card"><h3>Состав по классам</h3><div class="statgrid"><div class="stat"><b>7</b><span>TANK</span></div><div class="stat"><b>8</b><span>HEAL</span></div><div class="stat"><b>13</b><span>DD</span></div><div class="stat"><b>6</b><span>RANGED</span></div><div class="stat"><b>5</b><span>SUPPORT</span></div><div class="stat"><b>3</b><span>OTHER</span></div></div></div>
+</div></section>
+
+<section id="roster" class="section">
+<h1>Состав</h1><div class="sub">Игроки гильдии, КП, оружие и общий WG Winrate.</div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>42 игрока</b><input id="search" class="search" placeholder="Поиск игрока..." oninput="renderRoster()"></div>
+<div class="filters"><button class="filter active" onclick="classFilter('ALL',this)">Все</button><button class="filter" onclick="classFilter('TANK',this)">Танки</button><button class="filter" onclick="classFilter('HEAL',this)">Хилы</button><button class="filter" onclick="classFilter('DD',this)">DD</button><button class="filter" onclick="classFilter('RANGED',this)">Ranged</button><button class="filter" onclick="classFilter('SUPPORT',this)">Support</button></div>
+<table class="table"><thead><tr><th>Игрок</th><th>Класс</th><th>Оружие</th><th>КП</th><th>WG Winrate</th></tr></thead><tbody id="rosterRows"></tbody></table></div>
+</section>
+
+<section id="battles" class="section">
+<h1>Сражения</h1><div class="sub">Выберите матч. Внутри хранится полная персональная статистика обеих команд.</div>
+<div class="tabs"><button class="tab active" onclick="battleTab('wg',this)">⚔ Варгеймы</button><button class="tab" onclick="battleTab('siege',this)">◈ Осады</button></div>
+<div id="wgList"></div><div id="siegeList" style="display:none"></div>
+</section>
+
+<section id="battle" class="section"><div class="back" onclick="show('battles')">← Назад к сражениям</div><div id="battleContent"></div></section>
+
+<section id="cp" class="section">
+<h1>КП</h1><div class="sub">Боевые пачки с персональными цветами и контролем заполненности.</div>
+<div class="grid g2" id="cpGrid"></div>
+</section>
+
+<section id="profile" class="section"><div class="back" onclick="show('roster')">← Назад к составу</div><div id="profileContent"></div></section>
+
+<section id="guild" class="section">
+<h1>О гильдии</h1><div class="sub">Информация и контакты TL200.</div>
+<div class="grid g3"><div class="card"><h3>TL200</h3><p class="small">PvP-гильдия Throne and Liberty. Организованные КП, участие в варгеймах и осадах.</p><div class="info">Прайм: 20:00–00:00 МСК</div></div><div class="card"><h3>Состав</h3><div class="metric">42</div><div class="label">активных игроков</div><p class="small">7 КП · 7 Tank · 8 Heal · 13 DD · 6 Ranged · 5 Support</p></div><div class="card"><h3>Связь</h3><div class="info">Discord · discord.gg/tl200</div><br><div class="info">Telegram · @TL200_Guild</div></div></div>
+</section>
+</main></div>
+
+<script>
+const cpData=[
+{id:'cp1',name:'КП ALPHA',color:'#8b5cf6',members:['Raven','Kain','Nox','Maverick','Vex','Astra']},
+{id:'cp2',name:'КП OMEGA',color:'#22d3ee',members:['Demon','Zero','Crow','Rex','Mira','Luna']},
+{id:'cp3',name:'КП VORTEX',color:'#f59e0b',members:['Titan','Shade','Nova','Ghost','Iris']},
+{id:'cp4',name:'КП HUNTERS',color:'#ef4444',members:['Drake','Frost','Riot','Sora','Kiro','Vale']},
+{id:'cp5',name:'КП TITANS',color:'#10b981',members:['Axel','Maks','Reaper','Loki']},
+{id:'cp6',name:'КП ECLIPSE',color:'#ec4899',members:['Kira','Onyx','Echo','Misty','Ravenna','Flux']},
+{id:'cp7',name:'КП RESERVE',color:'#64748b',members:['Bolt','Ash','Dusk','Ray','Zen']}
+];
+const players=[
+['Raven','TANK',['⚔','🛡'],'cp1',83],['Kain','DD',['🗡','🗡'],'cp1',81],['Nox','DD',['⚔','🗡'],'cp1',86],['Maverick','HEAL',['✚','📖'],'cp1',75],['Vex','RANGED',['🏹','🗡'],'cp1',79],['Astra','HEAL',['📖','✚'],'cp1',71],
+['Demon','TANK',['🛡','⚔'],'cp2',80],['Zero','DD',['🗡','⚔'],'cp2',90],['Crow','RANGED',['🏹','⚔'],'cp2',78],['Rex','DD',['🗡','🗡'],'cp2',82],['Mira','SUPPORT',['📖','🏹'],'cp2',69],['Luna','HEAL',['✚','📖'],'cp2',73],
+['Titan','TANK',['🛡','⚔'],'cp3',77],['Shade','DD',['🗡','🗡'],'cp3',74],['Nova','RANGED',['🏹','🗡'],'cp3',80],['Ghost','DD',['⚔','🗡'],'cp3',71],['Iris','HEAL',['✚','📖'],'cp3',76],
+['Drake','TANK',['🛡','⚔'],'cp4',84],['Frost','DD',['🗡','⚔'],'cp4',82],['Riot','DD',['🗡','🗡'],'cp4',76],['Sora','HEAL',['✚','📖'],'cp4',79],['Kiro','RANGED',['🏹','⚔'],'cp4',74],['Vale','SUPPORT',['📖','🏹'],'cp4',70],
+['Axel','TANK',['🛡','⚔'],'cp5',68],['Maks','DD',['⚔','🗡'],'cp5',73],['Reaper','DD',['🗡','🗡'],'cp5',71],['Loki','HEAL',['✚','📖'],'cp5',67],
+['Kira','HEAL',['✚','📖'],'cp6',88],['Onyx','DD',['🗡','⚔'],'cp6',85],['Echo','RANGED',['🏹','🗡'],'cp6',80],['Misty','SUPPORT',['📖','🏹'],'cp6',74],['Ravenna','DD',['⚔','🗡'],'cp6',83],['Flux','TANK',['🛡','⚔'],'cp6',78],
+['Bolt','TANK',['🛡','⚔'],'cp7',64],['Ash','DD',['🗡','🗡'],'cp7',62],['Dusk','RANGED',['🏹','⚔'],'cp7',66],['Ray','HEAL',['✚','📖'],'cp7',61],['Zen','DD',['⚔','🗡'],'cp7',65]
+];
+let role='ALL';
+const getP=n=>players.find(p=>p[0]===n)||[n,'DD',['⚔','🗡'],'cp7',0];
+const getCP=id=>cpData.find(c=>c.id===id);
+function show(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}scrollTo(0,0)}
+function classFilter(r,b){role=r;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderRoster()}
+function renderRoster(){let q=(document.getElementById('search')?.value||'').toLowerCase();document.getElementById('rosterRows').innerHTML=players.filter(p=>(role==='ALL'||p[1]===role)&&p[0].toLowerCase().includes(q)).map(p=>{let c=getCP(p[3]);return `<tr class="row" onclick="openProfile('${p[0]}')"><td><span class="ava">${p[0][0]}</span><b>${p[0]}</b></td><td>${p[1]}</td><td><div class="weapons">${p[2].map(x=>`<span class="weapon">${x}</span>`).join('')}</div></td><td><span class="cp" style="color:${c.color};background:${c.color}18;border:1px solid ${c.color}55">${c.name}</span></td><td><b>${p[4]}%</b></td></tr>`}).join('')}
+function battleTab(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('wgList').style.display=t==='wg'?'block':'none';document.getElementById('siegeList').style.display=t==='siege'?'block':'none'}
+
+const battles={
+wg1:{type:'WAR GAME',date:'28.09.2026',enemy:'VANGUARD',score:'2 : 0',result:'ПОБЕДА',map:'Riftstone',players:12,kills:146,deaths:91,assists:288,damage:'18.42M',healing:'6.84M',received:'14.20M',objectives:14,duration:'18:42',
+stats:[
+['Raven','TANK',8,6,31,1.42,.31,1.18,2,9.4,4,1],['Kain','DD',19,7,21,2.86,.05,.22,3,12.8,1,0],['Nox','DD',24,8,28,3.21,.08,.18,4,14.6,2,0],['Maverick','HEAL',4,6,39,.91,3.14,.64,1,6.2,5,0],['Vex','RANGED',17,9,26,2.73,.12,.36,2,10.8,3,1],['Astra','HEAL',6,7,35,.72,2.98,.71,2,5.9,4,0],['Demon','TANK',10,7,34,1.63,.42,1.35,3,8.8,4,1],['Zero','DD',22,6,27,3.48,.06,.25,4,15.1,2,0],['Crow','RANGED',15,8,29,2.45,.10,.41,2,11.2,3,0],['Rex','DD',18,9,24,2.77,.04,.19,3,12.1,2,0],['Mira','SUPPORT',8,8,31,1.34,1.21,.73,2,7.7,6,1],['Luna','HEAL',9,7,33,.86,3.22,.68,1,6.4,5,0],
+['VNG-01','TANK',7,12,19,1.21,.28,1.76,1,7.1,2,0],['VNG-02','DD',16,11,18,2.51,.04,.29,2,10.1,1,0],['VNG-03','DD',14,13,22,2.23,.05,.31,2,9.7,1,0],['VNG-04','HEAL',5,14,28,.81,2.31,.72,1,5.6,3,0],['VNG-05','RANGED',12,10,17,2.08,.08,.39,2,9.1,2,0],['VNG-06','TANK',8,12,21,1.48,.35,1.42,2,7.8,3,1]
+]},
+wg2:{type:'WAR GAME',date:'26.09.2026',enemy:'NOMADS',score:'1 : 2',result:'ПОРАЖЕНИЕ',map:'Riftstone',players:12,kills:119,deaths:134,assists:241,damage:'15.77M',healing:'5.91M',received:'17.83M',objectives:9,duration:'22:17',
+stats:[
+['Raven','TANK',7,11,27,1.31,.39,1.47,1,8.6,3,1],['Kain','DD',18,12,19,2.74,.04,.27,2,11.9,1,0],['Nox','DD',21,10,24,3.06,.07,.24,2,13.5,2,0],['Maverick','HEAL',3,11,33,.88,2.82,.78,1,5.8,4,0],['Vex','RANGED',14,12,22,2.42,.10,.43,1,10.2,2,0],['Astra','HEAL',5,13,29,.70,2.63,.82,1,5.2,3,0],['Demon','TANK',8,13,28,1.51,.35,1.51,1,8.1,3,1],['Zero','DD',19,9,25,3.22,.05,.29,2,14,1,0],['Crow','RANGED',13,12,20,2.19,.08,.45,1,9.8,2,0],['Rex','DD',16,14,21,2.56,.04,.22,1,11.6,2,0],['Mira','SUPPORT',7,12,26,1.27,1.08,.79,1,7.2,5,1],['Luna','HEAL',8,15,27,.83,2.49,.74,1,6,4,0],
+['NOM-01','TANK',12,8,31,1.77,.33,1.19,3,9.3,5,1],['NOM-02','DD',20,7,26,3.31,.06,.21,2,14.8,2,0],['NOM-03','DD',17,9,29,2.88,.05,.25,2,13.2,2,0],['NOM-04','HEAL',8,9,36,.73,3.04,.61,2,6.8,6,0],['NOM-05','RANGED',15,8,24,2.66,.11,.34,2,12.4,3,0],['NOM-06','TANK',10,10,28,1.58,.41,1.28,2,8.7,4,1]
+]},
+siege1:{type:'ОСАДА',date:'27.09.2026',enemy:'DEFENDERS',score:'WIN',result:'ПОБЕДА',map:'Stonegard Castle',players:36,kills:487,deaths:302,assists:911,damage:'61.8M',healing:'21.4M',received:'54.7M',objectives:47,duration:'31:26',
+stats:[
+['Raven','TANK',22,17,81,5.42,1.21,5.81,9,28.4,14,4],['Kain','DD',47,14,73,9.21,.11,.64,11,36.8,6,1],['Nox','DD',52,16,79,10.34,.16,.58,12,39.2,7,1],['Maverick','HEAL',11,18,106,2.47,9.22,2.18,6,19.7,18,0],['Vex','RANGED',39,20,68,8.73,.24,.92,8,34.1,9,2],['Astra','HEAL',14,19,98,2.19,8.71,2.26,5,18.6,16,0],['Demon','TANK',28,20,93,6.18,1.44,5.37,8,30.1,15,4],['Zero','DD',55,15,84,11.12,.14,.61,13,41.7,8,1],['Crow','RANGED',36,19,75,7.91,.22,.88,9,31.8,11,2],['Rex','DD',43,22,71,8.67,.10,.54,10,35.4,7,1],['Mira','SUPPORT',19,21,88,4.12,3.84,1.97,7,24.3,17,3],['Luna','HEAL',17,20,104,2.61,9.03,2.09,6,20.1,18,0]
+]}
+};
+
+function card(id,b){return `<div class="card match" onclick="openBattle('${id}')"><div class="matchhead"><div><span class="small">${b.type} · ${b.date}</span><div class="versus">TL200 × ${b.enemy}</div><div class="small">${b.map} · ${b.duration}</div></div><div class="${b.result==='ПОБЕДА'?'win':'loss'}"><b>${b.result}</b><br>${b.score}</div></div><div class="statgrid" style="margin-top:16px"><div class="stat"><b>${b.kills}</b><span>KILLS</span></div><div class="stat"><b>${b.deaths}</b><span>DEATHS</span></div><div class="stat"><b>${b.assists}</b><span>ASSISTS</span></div><div class="stat"><b>${b.damage}</b><span>DAMAGE</span></div><div class="stat"><b>${b.healing}</b><span>HEALING</span></div><div class="stat"><b>${b.objectives}</b><span>OBJECTIVES</span></div></div></div>`}
+function listBattles(){document.getElementById('wgList').innerHTML=card('wg1',battles.wg1)+card('wg2',battles.wg2);document.getElementById('siegeList').innerHTML=card('siege1',battles.siege1)}
+
+let currentMatchTab='all',currentSort={key:'damage',dir:'desc'};
+function sortStats(key){if(currentSort.key===key)currentSort.dir=currentSort.dir==='desc'?'asc':'desc';else{currentSort.key=key;currentSort.dir='desc'}renderBattleStats(window.currentBattleId)}
+function setMatchTab(tab){currentMatchTab=tab;document.querySelectorAll('.mini-tabs button').forEach(x=>x.classList.remove('active'));document.querySelector(`.mini-tabs button[data-tab="${tab}"]`).classList.add('active');renderBattleStats(window.currentBattleId)}
+function makeRows(b){
+return b.stats.map((x,i)=>({name:x[0],role:x[1],kills:x[2],deaths:x[3],assists:x[4],damage:x[5],healing:x[6],received:x[7],obj:x[8],dmgTaken:x[9],cc:x[10],downs:x[11],team:i<12?'TL200':b.enemy}))
+}
+function teamRows(rows){
+rows.sort((a,b)=>{let va=a[currentSort.key],vb=b[currentSort.key];return va<vb?(currentSort.dir==='asc'?-1:1):va>vb?(currentSort.dir==='asc'?1:-1):0});
+return rows.map((p,i)=>`<tr><td class="rank">${i+1}</td><td><span class="ava">${p.name[0]}</span><b>${p.name}</b></td><td>${p.role}</td><td class="num kill">${p.kills}</td><td class="num">${p.deaths}</td><td class="num">${p.assists}</td><td class="num damage">${p.damage.toFixed(2)}M</td><td class="num healing">${p.healing.toFixed(2)}M</td><td class="num">${p.received.toFixed(2)}M</td><td class="num">${p.obj}</td><td class="num">${p.cc}</td><td class="num">${p.dmgTaken.toFixed(2)}M</td></tr>`).join('')
+}
+function renderBattleStats(id){
+const b=battles[id],raw=makeRows(b),tl=raw.filter(x=>x.team==='TL200'),en=raw.filter(x=>x.team===b.enemy);
+let body='';
+if(currentMatchTab!=='enemy')body+=`<tr class="teamrow"><td colspan="12">TL200 · ${tl.length} игроков</td></tr>`+teamRows([...tl]);
+if(currentMatchTab!=='tl')body+=`<tr class="teamrow enemyteam"><td colspan="12">${b.enemy} · ${en.length} игроков</td></tr>`+teamRows([...en]);
+document.getElementById('battleStats').innerHTML=`<div class="tablewrap"><table class="table fullstats"><thead><tr><th>#</th><th>Игрок</th><th>Класс</th><th onclick="sortStats('kills')">Убийства ↕</th><th onclick="sortStats('deaths')">Смерти ↕</th><th onclick="sortStats('assists')">Ассисты ↕</th><th onclick="sortStats('damage')">Урон ↕</th><th onclick="sortStats('healing')">Лечение ↕</th><th onclick="sortStats('received')">Входящий урон ↕</th><th onclick="sortStats('obj')">Объективы ↕</th><th onclick="sortStats('cc')">CC ↕</th><th onclick="sortStats('dmgTaken')">Урон получен ↕</th></tr></thead><tbody>${body}</tbody></table></div>`}
+function openBattle(id){
+show('battle');window.currentBattleId=id;currentMatchTab='all';currentSort={key:'damage',dir:'desc'};let b=battles[id],raw=makeRows(b),topD=[...raw].sort((a,z)=>z.damage-a.damage)[0],topK=[...raw].sort((a,z)=>z.kills-a.kills)[0],topH=[...raw].sort((a,z)=>z.healing-a.healing)[0];
+document.getElementById('battleContent').innerHTML=`<div class="hero"><div class="small">${b.type} · ${b.date}</div><h1>TL200 <span class="accent">×</span> ${b.enemy}</h1><div class="sub">${b.map} · ${b.duration} · ${b.players} участников TL200</div><b class="${b.result==='ПОБЕДА'?'win':'loss'}">${b.result} · ${b.score}</b></div>
+<div class="card"><div class="detailbar"><div><h2>Полная статистика матча</h2><div class="note">Здесь хранится статистика каждого участника обеих команд.</div></div><div class="mini-tabs"><button data-tab="all" class="active" onclick="setMatchTab('all')">Все игроки</button><button data-tab="tl" onclick="setMatchTab('tl')">TL200</button><button data-tab="enemy" onclick="setMatchTab('enemy')">${b.enemy}</button></div></div>
+<div class="statdesc"><div class="stat"><b>${b.kills}</b><span>ВСЕ УБИЙСТВА</span></div><div class="stat"><b>${b.deaths}</b><span>ВСЕ СМЕРТИ</span></div><div class="stat"><b>${b.damage}</b><span>ОБЩИЙ УРОН</span></div><div class="stat"><b>${b.healing}</b><span>ОБЩЕЕ ЛЕЧЕНИЕ</span></div><div class="stat"><b>${topD.name}</b><span>ТОП ПО УРОНУ</span></div><div class="stat"><b>${topK.name}</b><span>ТОП ПО УБИЙСТВАМ</span></div><div class="stat"><b>${topH.name}</b><span>ТОП ПО ЛЕЧЕНИЮ</span></div><div class="stat"><b>${b.objectives}</b><span>ОБЪЕКТИВЫ</span></div></div>
+<div id="battleStats"></div><div class="sorthint">Нажми на название столбца для сортировки. Демонстрационные цифры заменяются реальными данными после варгейма.</div></div>`;
+renderBattleStats(id)
+}
+function renderCP(){document.getElementById('cpGrid').innerHTML=cpData.map(c=>{let full=c.members.length===6;return `<div class="card cpbox" style="border-top-color:${c.color}"><div class="cp-title"><div><h3 style="margin:0;color:${c.color}">${c.name}</h3><span class="small">${c.members.length}/6 игроков</span></div><b style="color:${full?'#37d486':'#f59e0b'}">${full?'FULL':'НЕПОЛНАЯ'}</b></div><div class="cp-members">${c.members.map(n=>{let p=getP(n);return `<div class="member" onclick="openProfile('${n}')"><span class="ava" style="background:${c.color}33;border:1px solid ${c.color}66">${n[0]}</span><b>${n}</b><div class="small">${p[1]} · ${p[4]}% WG</div></div>`}).join('')}${!full?`<div class="member missing">+ ${6-c.members.length} свободных</div>`:''}</div></div>`}).join('')}
+function openProfile(n){let p=getP(n),c=getCP(p[3]);show('profile');document.getElementById('profileContent').innerHTML=`<div class="cover" style="background:linear-gradient(115deg,${c.color}55,#101b29 55%,#10151c)"></div><div class="profilehead"><div class="bigava" style="background:${c.color}">${p[0][0]}</div><h1>${p[0]}</h1><div class="sub">${p[1]} · ${c.name} · WG Winrate ${p[4]}%</div><div class="grid g4"><div><b>18</b><div class="small">WG MATCHES</div></div><div><b>${p[4]}%</b><div class="small">WINRATE</div></div><div><b>3.8</b><div class="small">K/D AVG</div></div><div><b>12.4</b><div class="small">ASSIST AVG</div></div></div></div>`}
+renderRoster();listBattles();renderCP();
+</script>
+</body></html>'''
+
+path = Path("/mnt/data/TL200_Guild_Hub_full_stats.html")
+path.write_text(html, encoding="utf-8")
+print(f"Готово: {path}")
